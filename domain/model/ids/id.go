@@ -2,18 +2,24 @@ package ids
 
 import "github.com/google/uuid"
 
-type ID interface {
-	TagID | TaskID
+type idConstraints interface {
+	~struct {
+		id uuid.UUID
+	}
 }
 
-func Parse[T ID](raw string) (T, error) {
+func Parse[T idConstraints](raw string) (T, error) {
 	id, err := uuid.Parse(raw)
 
 	return T{id: id}, err
 }
 
-func New[T ID]() T {
+func New[T idConstraints]() T {
 	return T{
 		id: uuid.New(),
 	}
+}
+
+func String(id uuidInterface) string {
+	return id.uuid().String()
 }
