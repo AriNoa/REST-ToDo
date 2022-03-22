@@ -9,6 +9,10 @@ type InputData struct {
 	name optional.Optional[string]
 }
 
+func (i InputData) Name() (string, bool) {
+	return i.name.Get()
+}
+
 func NewInputData(
 	name optional.Optional[string],
 ) InputData {
@@ -19,6 +23,10 @@ func NewInputData(
 
 type OutputData struct {
 	tag protocol.Tag
+}
+
+func (o OutputData) Tag() protocol.Tag {
+	return o.tag
 }
 
 func NewOutputData(
