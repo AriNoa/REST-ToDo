@@ -17,31 +17,31 @@ type MockRepository struct {
 	mock.Mock
 }
 
-func (m MockRepository) Create(name Name) (Tag, error) {
+func (m *MockRepository) Create(name Name) (Tag, error) {
 	ret := m.Called(name)
 
 	return ret.Get(0).(Tag), ret.Error(1)
 }
 
-func (m MockRepository) FindByID(id ids.TagID) (Tag, bool) {
+func (m *MockRepository) FindByID(id ids.TagID) (Tag, bool) {
 	ret := m.Called(id)
 
 	return ret.Get(0).(Tag), ret.Bool(1)
 }
 
-func (m MockRepository) FindByName(name Name) (Tag, bool) {
+func (m *MockRepository) FindByName(name Name) (Tag, bool) {
 	ret := m.Called(name)
 
 	return ret.Get(0).(Tag), ret.Bool(1)
 }
 
-func (m MockRepository) Update(tag Tag) error {
+func (m *MockRepository) Update(tag Tag) error {
 	ret := m.Called(tag)
 
 	return ret.Error(0)
 }
 
-func (m MockRepository) Delete(id ids.TagID) error {
+func (m *MockRepository) Delete(id ids.TagID) error {
 	ret := m.Called(id)
 
 	return ret.Error(0)
