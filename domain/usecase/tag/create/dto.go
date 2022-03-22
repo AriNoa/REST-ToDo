@@ -2,20 +2,17 @@ package create
 
 import (
 	"github.com/AriNoa/REST-ToDo/domain/protocol"
-	"github.com/AriNoa/goutil/optional"
 )
 
 type InputData struct {
-	name optional.Optional[string]
+	name string
 }
 
-func (i InputData) Name() (string, bool) {
-	return i.name.Get()
+func (i InputData) Name() string {
+	return i.name
 }
 
-func NewInputData(
-	name optional.Optional[string],
-) InputData {
+func NewInputData(name string) InputData {
 	return InputData{
 		name: name,
 	}
@@ -29,9 +26,7 @@ func (o OutputData) Tag() protocol.Tag {
 	return o.tag
 }
 
-func NewOutputData(
-	tag protocol.Tag,
-) OutputData {
+func NewOutputData(tag protocol.Tag) OutputData {
 	return OutputData{
 		tag: tag,
 	}
