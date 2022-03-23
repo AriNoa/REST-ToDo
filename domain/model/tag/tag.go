@@ -17,6 +17,10 @@ func (t *Tag) Name() *Name {
 	return &t.name
 }
 
+func (t Tag) Is(other Tag) bool {
+	return t.id == other.id
+}
+
 func (t Tag) Clone() Tag {
 	return Tag{
 		id:   t.id,
