@@ -18,6 +18,7 @@ func TestCreateTag(t *testing.T) {
 
 	repository := new(model.MockRepository)
 	repository.On("Create", name).Return(tag, nil)
+	repository.On("FindByName", name).Return(model.Tag{}, false)
 
 	interactor := NewCreateInteractor(repository)
 
@@ -38,4 +39,22 @@ func TestCreateNoNameTag(t *testing.T) {
 	_, err := interactor.Handle(input)
 
 	assert.ErrorIs(t, err, protocol.ErrNoTagName)
+}
+
+func TestCreateTagWithExistingTagName(t *testing.T) {
+	id := ids.New[ids.TagID]()
+	name := functions.Must(model.NewName("hoge"))
+	tag := functions.Must(model.New(id, name))
+
+	repository := new(model.MockRepository)
+	repository.On("FindByName", name).Return(tag, true)
+
+	interactor := NewCreateInteractor(repository)
+
+	input := create.NewInputData("hoge")
+	_, err := interactor.Handle(input)
+
+	assert.ErrorIs(t, err, protocol.ErrTagAlreadyCreated)
+
+	repository.AssertCalled(t, "FindByName", name)
 }
